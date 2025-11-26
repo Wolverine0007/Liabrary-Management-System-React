@@ -1,7 +1,7 @@
 module.exports = {
-  host: '127.0.0.1',
-  port: 3306,
-  user: 'root',
-  password: 'sanket123',
-  database: 'library'
+  host: process.env.DB_HOST || '127.0.0.1',
+  port: process.env.DB_PORT || 3306,
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'sanket123',
+  database: process.env.DB_NAME || 'library'
 };

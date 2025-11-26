@@ -34,6 +34,20 @@ class LIBRARY {
 
     get() {
 
+        //ROOT ROUTE - API INFO
+        this.app.get('/', (req, res) => {
+            res.json({
+                message: "Library Management System API",
+                status: "Server is running",
+                frontend: "http://localhost:3000",
+                endpoints: {
+                    books: "/api/getBooks",
+                    students: "/api/getStudents",
+                    dashboard: "/api/dashboard"
+                }
+            });
+        });
+
         //GET LIST OF ALL THE BOOKS
         this.app.get('/api/getBooks', (req, res) => {
             let sql = `SELECT * FROM BOOK`;
@@ -306,6 +320,39 @@ class LIBRARY {
             });
         });
 
+        //UPDATE A STUDENT
+        this.app.put('/api/updateStudent/:id', (req, res) => {
+            const { name, fine } = req.body;
+            const studentId = req.params.id;
+            
+            if (!name) {
+                return res.status(400).json({error: "Student name is required"});
+            }
+            
+            let sql = `UPDATE STUDENT SET name = ?`;
+            let params = [name];
+            
+            if (fine !== undefined && fine !== null) {
+                sql += `, fine = ?`;
+                params.push(parseFloat(fine) || 0);
+            }
+            
+            sql += ` WHERE id = ?`;
+            params.push(studentId);
+            
+            this.db.query(sql, params, (err, result) => {
+                if(err) {
+                    console.log("Error updating student:", err);
+                    return res.status(500).json({error: "Failed to update student"});
+                }
+                if(result.affectedRows === 0) {
+                    return res.status(404).json({error: "Student not found"});
+                }
+                console.log("Successfully updated student");
+                res.json({message: "Student updated successfully"});
+            });
+        });
+
         //DELETE A STUDENT
         this.app.delete('/api/deleteStudent/:id', (req, res) => {
             // Check if student has borrowed books
@@ -375,9 +422,14 @@ class LIBRARY {
             });
         });
 
-        //GET STUDENTS WITH FINES
+        //GET STUDENTS WITH FINES (including those with overdue books)
         this.app.get('/api/studentsWithFines', (req, res) => {
-            this.db.query('SELECT id, name, fine FROM STUDENT WHERE fine > 0 ORDER BY fine DESC', (err, result) => {
+            const sql = `SELECT DISTINCT s.id, s.name, s.fine 
+                        FROM STUDENT s 
+                        LEFT JOIN BORROW b ON s.id = b.idStudent 
+                        WHERE s.fine > 0 OR (b.deadline IS NOT NULL AND b.deadline < NOW())
+                        ORDER BY s.fine DESC`;
+            this.db.query(sql, (err, result) => {
                 if(err) {
                     console.log("Error fetching students with fines:", err);
                     return res.status(500).json({error: "Failed to fetch students with fines"});
@@ -401,6 +453,60 @@ class LIBRARY {
                 res.json(result);
             });
         });
+
+        //ADD TEST FINES (for testing dashboard)
+        this.app.post('/api/addTestFines', (req, res) => {
+            const testFines = [
+                { studentId: 1, fine: 50 },
+                { studentId: 2, fine: 30 },
+                { studentId: 3, fine: 20 }
+            ];
+            
+            let completed = 0;
+            testFines.forEach(({ studentId, fine }) => {
+                this.db.query('UPDATE STUDENT SET fine = ? WHERE id = ?', [fine, studentId], (err, result) => {
+                    if(err) {
+                        console.log(`Error adding fine to student ${studentId}:`, err);
+                    } else {
+                        console.log(`Added fine of ${fine} to student ${studentId}`);
+                    }
+                    completed++;
+                    if(completed === testFines.length) {
+                        res.json({message: "Test fines added successfully"});
+                    }
+                });
+            });
+        });
+
+        //CREATE TEST OVERDUE BOOKS (for testing dashboard)
+        this.app.post('/api/createOverdueBooks', (req, res) => {
+            // Create some borrow records with past deadlines
+            const pastDate = new Date();
+            pastDate.setDate(pastDate.getDate() - 10); // 10 days ago
+            const pastDeadline = new Date();
+            pastDeadline.setDate(pastDeadline.getDate() - 3); // 3 days overdue
+            
+            const testBorrows = [
+                { studentId: 1, bookId: 1, date: pastDate, deadline: pastDeadline },
+                { studentId: 2, bookId: 2, date: pastDate, deadline: pastDeadline }
+            ];
+            
+            let completed = 0;
+            testBorrows.forEach(({ studentId, bookId, date, deadline }) => {
+                this.db.query('INSERT INTO BORROW(idStudent, idBook, date, deadline) VALUES (?, ?, ?, ?)', 
+                    [studentId, bookId, date, deadline], (err, result) => {
+                    if(err) {
+                        console.log(`Error creating overdue book:`, err);
+                    } else {
+                        console.log(`Created overdue book for student ${studentId}`);
+                    }
+                    completed++;
+                    if(completed === testBorrows.length) {
+                        res.json({message: "Test overdue books created successfully"});
+                    }
+                });
+            });
+        });
     }
 
     listen() {
@@ -414,6 +520,7 @@ class LIBRARY {
     
 }
 
-let library = new LIBRARY(3001, express());
+const PORT = process.env.PORT || 3001;
+let library = new LIBRARY(PORT, express());
 library.get();
 library.listen();

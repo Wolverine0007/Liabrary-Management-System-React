@@ -10,51 +10,59 @@ class SampleData {
     }
 
     insertSampleData() {
-        // Sample students
-        const students = [
-            'John Doe',
-            'Jane Smith', 
-            'Mike Johnson',
-            'Sarah Wilson',
-            'David Brown'
-        ];
+        // Check if sample data already exists
+        this.db.query('SELECT COUNT(*) as count FROM STUDENT', (err, result) => {
+            if (err || result[0].count > 0) {
+                console.log('Sample data already exists or error checking, skipping insertion');
+                return;
+            }
 
-        // Sample books
-        const books = [
-            { name: 'The Great Gatsby', author: 'F. Scott Fitzgerald', count: 3 },
-            { name: 'To Kill a Mockingbird', author: 'Harper Lee', count: 2 },
-            { name: '1984', author: 'George Orwell', count: 4 },
-            { name: 'Pride and Prejudice', author: 'Jane Austen', count: 2 },
-            { name: 'The Catcher in the Rye', author: 'J.D. Salinger', count: 3 },
-            { name: 'Lord of the Flies', author: 'William Golding', count: 2 },
-            { name: 'Animal Farm', author: 'George Orwell', count: 3 },
-            { name: 'Brave New World', author: 'Aldous Huxley', count: 2 }
-        ];
+            // Sample students
+            const students = [
+                'John Doe',
+                'Jane Smith', 
+                'Mike Johnson',
+                'Sarah Wilson',
+                'David Brown'
+            ];
 
-        // Insert students
-        students.forEach(name => {
-            this.db.query('INSERT INTO STUDENT(name) VALUES (?)', [name], (err, result) => {
-                if (err) {
-                    console.log('Error inserting student:', err);
-                } else {
-                    console.log(`Inserted student: ${name}`);
-                }
+            // Sample books
+            const books = [
+                { name: 'The Great Gatsby', author: 'F. Scott Fitzgerald', count: 3 },
+                { name: 'To Kill a Mockingbird', author: 'Harper Lee', count: 2 },
+                { name: '1984', author: 'George Orwell', count: 4 },
+                { name: 'Pride and Prejudice', author: 'Jane Austen', count: 2 },
+                { name: 'The Catcher in the Rye', author: 'J.D. Salinger', count: 3 },
+                { name: 'Lord of the Flies', author: 'William Golding', count: 2 },
+                { name: 'Animal Farm', author: 'George Orwell', count: 3 },
+                { name: 'Brave New World', author: 'Aldous Huxley', count: 2 }
+            ];
+
+            // Insert students
+            students.forEach(name => {
+                this.db.query('INSERT INTO STUDENT(name) VALUES (?)', [name], (err, result) => {
+                    if (err) {
+                        console.log('Error inserting student:', err);
+                    } else {
+                        console.log(`Inserted student: ${name}`);
+                    }
+                });
             });
-        });
 
-        // Insert books
-        books.forEach(book => {
-            this.db.query('INSERT INTO BOOK(name, author, book_count) VALUES (?, ?, ?)', 
-                [book.name, book.author, book.count], (err, result) => {
-                if (err) {
-                    console.log('Error inserting book:', err);
-                } else {
-                    console.log(`Inserted book: ${book.name}`);
-                }
+            // Insert books
+            books.forEach(book => {
+                this.db.query('INSERT INTO BOOK(name, author, book_count) VALUES (?, ?, ?)', 
+                    [book.name, book.author, book.count], (err, result) => {
+                    if (err) {
+                        console.log('Error inserting book:', err);
+                    } else {
+                        console.log(`Inserted book: ${book.name}`);
+                    }
+                });
             });
-        });
 
-        console.log('Sample data insertion completed');
+            console.log('Sample data insertion completed');
+        });
     }
 }
 

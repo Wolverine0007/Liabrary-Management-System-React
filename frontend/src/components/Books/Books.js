@@ -114,7 +114,10 @@ class Books extends React.Component {
     render() {
         return (
             <div id='books'>
-                <span id="heading">LIBRARY BOOKS</span>
+                <div className="books-header">
+                    <h1 className="books-title">Book Collection</h1>
+                    <p className="books-subtitle">Manage your library's book inventory</p>
+                </div>
                 
                 <div className="add-book-form">
                     <div className="form-header">
@@ -139,28 +142,39 @@ class Books extends React.Component {
                     
                     {!this.state.showBulkImport ? (
                         <form onSubmit={this.addBook}>
-                            <input
-                                type="text"
-                                placeholder="Book Name"
-                                value={this.state.newBook.name}
-                                onChange={(e) => this.setState({ newBook: { ...this.state.newBook, name: e.target.value } })}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder="Author"
-                                value={this.state.newBook.author}
-                                onChange={(e) => this.setState({ newBook: { ...this.state.newBook, author: e.target.value } })}
-                                required
-                            />
-                            <input
-                                type="number"
-                                placeholder="Count"
-                                min="1"
-                                value={this.state.newBook.book_count}
-                                onChange={(e) => this.setState({ newBook: { ...this.state.newBook, book_count: parseInt(e.target.value) } })}
-                            />
-                            <button type="submit">Add Book</button>
+                            <div className="form-group">
+                                <label>Book Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter book name"
+                                    value={this.state.newBook.name}
+                                    onChange={(e) => this.setState({ newBook: { ...this.state.newBook, name: e.target.value } })}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Author</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter author name"
+                                    value={this.state.newBook.author}
+                                    onChange={(e) => this.setState({ newBook: { ...this.state.newBook, author: e.target.value } })}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Count</label>
+                                <input
+                                    type="number"
+                                    placeholder="Number of copies"
+                                    min="1"
+                                    value={this.state.newBook.book_count}
+                                    onChange={(e) => this.setState({ newBook: { ...this.state.newBook, book_count: parseInt(e.target.value) } })}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <button type="submit">Add Book</button>
+                            </div>
                         </form>
                     ) : (
                         <div className="bulk-import">
@@ -179,51 +193,59 @@ class Books extends React.Component {
                 </div>
 
                 <div className="search-section">
-                    <h3>Search Books</h3>
+                    <div className="form-header">
+                        <h3>Search Books</h3>
+                    </div>
                     <div className="search-bar">
-                        <input
-                            type="text"
-                            placeholder="Search by name or author..."
-                            value={this.state.searchQuery}
-                            onChange={(e) => this.setState({ searchQuery: e.target.value })}
-                        />
+                        <div className="form-group">
+                            <label>Search Query</label>
+                            <input
+                                type="text"
+                                placeholder="Search by name or author..."
+                                value={this.state.searchQuery}
+                                onChange={(e) => this.setState({ searchQuery: e.target.value })}
+                            />
+                        </div>
                         <button onClick={this.searchBooks}>Search</button>
-                        <button onClick={() => { this.setState({ searchQuery: '' }); this.fetchBooks(); }}>Clear</button>
+                        <button className="secondary" onClick={() => { this.setState({ searchQuery: '' }); this.fetchBooks(); }}>Clear</button>
                     </div>
                 </div>
 
                 {this.state.loading ? (
-                    <p>Loading...</p>
+                    <div className="loading">Loading books...</div>
                 ) : (
-                    <table id="results" className="table text-center table-hover">
-                        <thead id="header">
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Book Name</th>
-                                <th scope="col">Author</th>
-                                <th scope="col">Available Count</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.books.map(book => (
-                                <tr key={book.id}>
-                                    <td>{book.id}</td>
-                                    <td>{book.name.toUpperCase()}</td>
-                                    <td>{book.author}</td>
-                                    <td>{book.book_count}</td>
-                                    <td>
-                                        <button 
-                                            className="delete-btn"
-                                            onClick={() => this.deleteBook(book.id, book.name)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
+                    <div id="results">
+                        <div id="heading">Book Inventory ({this.state.books.length} books)</div>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Book Name</th>
+                                    <th>Author</th>
+                                    <th>Available Count</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {this.state.books.map(book => (
+                                    <tr key={book.id}>
+                                        <td>{book.id}</td>
+                                        <td>{book.name}</td>
+                                        <td>{book.author}</td>
+                                        <td>{book.book_count}</td>
+                                        <td>
+                                            <button 
+                                                className="delete-btn danger"
+                                                onClick={() => this.deleteBook(book.id, book.name)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
         );

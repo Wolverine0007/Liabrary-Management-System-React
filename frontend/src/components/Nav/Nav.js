@@ -15,18 +15,27 @@ class Nav extends React.Component {
         this.setState(this.state);
     }
 
+    isActive = (path) => {
+        return window.location.pathname === path;
+    }
+
     render(){
+        const currentPath = window.location.pathname;
+        
         return (
             <div id='nav'>
-                <span>LIBRARY MANAGEMENT SYSTEM</span>
+                <Link to='/' className='logo' onClick={this.update}>
+                    MIT Library
+                </Link>
                 <ul>
-                    <li style={window.location.pathname === '/' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/' onClick={this.update}>Dashboard</Link></li>
-                    <li style={window.location.pathname === '/books' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/books' onClick={this.update}>Books</Link></li>
-                    <li style={window.location.pathname === '/students' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/students' onClick={this.update}>Students</Link></li>
-                    <li style={window.location.pathname === '/issue' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/issue' onClick={this.update}>Issue Book</Link></li>
-                    <li style={window.location.pathname === '/return' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/return' onClick={this.update}>Return Book</Link></li>
-                    <li style={window.location.pathname === '/fines' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/fines' onClick={this.update}>Fine Management</Link></li>
-                    <li style={window.location.pathname === '/search' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/search' onClick={this.update}>Search</Link></li>
+                    <li><Link to='/' className={this.isActive('/') ? 'active' : ''} onClick={this.update}>Dashboard</Link></li>
+                    <li><Link to='/books' className={this.isActive('/books') ? 'active' : ''} onClick={this.update}>Books</Link></li>
+                    <li><Link to='/students' className={this.isActive('/students') ? 'active' : ''} onClick={this.update}>Students</Link></li>
+                    <li><Link to='/issue' className={this.isActive('/issue') ? 'active' : ''} onClick={this.update}>Issue Book</Link></li>
+                    <li><Link to='/return' className={this.isActive('/return') ? 'active' : ''} onClick={this.update}>Return Book</Link></li>
+                    <li><Link to='/fines' className={this.isActive('/fines') ? 'active' : ''} onClick={this.update}>Fine Management</Link></li>
+                    <li><Link to='/search' className={this.isActive('/search') ? 'active' : ''} onClick={this.update}>Search</Link></li>
+                    <li><button className='logout-btn' onClick={this.props.onLogout}>Logout</button></li>
                 </ul>
             </div>
         );
