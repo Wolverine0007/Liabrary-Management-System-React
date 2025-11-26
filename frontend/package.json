@@ -14,8 +14,8 @@
     "react-scripts": "3.3.0"
   },
   "scripts": {
-  "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -33,6 +33,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": "16.x"
   },
   "proxy": "http://localhost:3001"
 }
