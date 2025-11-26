@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
+const cors = require('cors');
 const DATABASE = require('./utilities/createDB');
 const TABLES = require('./utilities/createTables');
 const SampleData = require('./utilities/sampleData');
@@ -11,19 +12,23 @@ class LIBRARY {
 
         this.port = port;
         this.app = app;
+        this.app.use(cors());
         this.app.use(express.json())
         this.temp = 0;
 
-        //Initialize Database
-        new DATABASE().initDB();
+        // Only initialize DB in development
+        if (process.env.NODE_ENV !== 'production') {
+            //Initialize Database
+            new DATABASE().initDB();
 
-        //Initialize All The Tables
-        new TABLES().initTable();
-        
-        //Add sample data (comment out after first run)
-        setTimeout(() => {
-            new SampleData().insertSampleData();
-        }, 2000);
+            //Initialize All The Tables
+            new TABLES().initTable();
+            
+            //Add sample data (comment out after first run)
+            setTimeout(() => {
+                new SampleData().insertSampleData();
+            }, 2000);
+        }
         
         this.db = mysql.createConnection({
             ...cred,
