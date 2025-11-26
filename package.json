@@ -1,0 +1,16 @@
+{
+  "name": "library-management-system",
+  "version": "1.0.0",
+  "description": "Full-stack Library Management System",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && npm run dev",
+    "install-backend": "cd backend && npm install",
+    "install-frontend": "cd frontend && npm install"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  }
+}
