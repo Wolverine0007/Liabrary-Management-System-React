@@ -1,0 +1,148 @@
+#books {
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.add-book-form, .search-section {
+    background: #f5f5f5;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    max-width: 800px;
+}
+
+.add-book-form form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.add-book-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-bar input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 300px;
+}
+
+button {
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+#results {
+    margin: 25px auto;
+    width: 80%;
+    border-radius: 8px;
+    background-color: rgb(111, 167, 219);
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+#heading {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.delete-btn {
+    background: #dc3545;
+    margin-left: 10px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+
+td button {
+    margin: 0 5px;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-toggle {
+    display: flex;
+    gap: 5px;
+}
+
+.form-toggle button {
+    padding: 8px 16px;
+    background: #e9ecef;
+    color: #495057;
+    border: 1px solid #ced4da;
+    font-size: 0.9rem;
+}
+
+.form-toggle button.active {
+    background: #007bff;
+    color: white;
+}
+
+.form-toggle button:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+.form-toggle button:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.bulk-import {
+    text-align: left;
+}
+
+.bulk-instructions {
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.bulk-import textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.bulk-import textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}

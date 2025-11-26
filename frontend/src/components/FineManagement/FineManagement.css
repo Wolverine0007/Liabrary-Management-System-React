@@ -1,0 +1,205 @@
+.fine-management {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.fine-sections {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.section h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.no-data {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+}
+
+.fine-amount {
+    color: #d32f2f;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.overdue-days {
+    background: #ffebee;
+    color: #c62828;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.potential-fine {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.pay-btn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.pay-btn:hover {
+    background: #45a049;
+}
+
+.payment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    min-width: 400px;
+    max-width: 500px;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+}
+
+.payment-details p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+.payment-input {
+    margin: 20px 0;
+}
+
+.payment-input label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.payment-input input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.payment-input input:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+.payment-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.process-btn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.process-btn:hover {
+    background: #45a049;
+}
+
+.cancel-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.cancel-btn:hover {
+    background: #da190b;
+}
+
+@media (max-width: 768px) {
+    .fine-management {
+        padding: 10px;
+    }
+    
+    .modal-content {
+        margin: 20px;
+        min-width: auto;
+        max-width: 90vw;
+    }
+    
+    .payment-actions {
+        flex-direction: column;
+    }
+}

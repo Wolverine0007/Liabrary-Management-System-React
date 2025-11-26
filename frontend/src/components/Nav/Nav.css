@@ -1,0 +1,34 @@
+#nav {
+    background-color: #2196F3;
+    min-height: 60px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+#nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+#nav ul li {
+    padding: 10px 15px;
+    font-size: 1.1em;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: #282c34;
+    font-weight: 500;
+}
+
+#nav span {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #282c34;
+    white-space: nowrap;
+}
