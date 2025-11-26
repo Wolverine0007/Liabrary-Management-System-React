@@ -1,8 +1,12 @@
 {
-  "buildCommand": "cd frontend && npm install && NODE_OPTIONS=--openssl-legacy-provider npm run build",
-  "outputDirectory": "frontend/build",
-  "framework": "create-react-app",
-  "env": {
-    "NODE_OPTIONS": "--openssl-legacy-provider"
+  "functions": {
+    "frontend/src/**": {
+      "runtime": "nodejs16.x"
+    }
+  },
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--openssl-legacy-provider"
+    }
   }
 }
