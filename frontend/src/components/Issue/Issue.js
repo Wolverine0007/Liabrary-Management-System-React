@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import config from '../../config';
 import './Issue.css';
 
 class Issue extends React.Component {
@@ -22,7 +23,7 @@ class Issue extends React.Component {
     }
 
     fetchBooks = () => {
-        axios.get('/api/getBooks')
+        axios.get(`${config.API_BASE_URL}/api/getBooks`)
             .then(response => {
                 this.setState({ books: response.data.filter(book => book.book_count > 0) });
             })
@@ -32,7 +33,7 @@ class Issue extends React.Component {
     }
 
     fetchStudents = () => {
-        axios.get('/api/getStudents')
+        axios.get(`${config.API_BASE_URL}/api/getStudents`)
             .then(response => {
                 this.setState({ students: response.data, filteredStudents: response.data });
             })
@@ -47,7 +48,7 @@ class Issue extends React.Component {
             return;
         }
 
-        axios.get(`/api/searchBooks/${this.state.searchQuery}`)
+        axios.get(`${config.API_BASE_URL}/api/searchBooks/${this.state.searchQuery}`)
             .then(response => {
                 this.setState({ books: response.data.filter(book => book.book_count > 0) });
             })
@@ -62,7 +63,7 @@ class Issue extends React.Component {
             return;
         }
 
-        axios.post('/api/borrow', {
+        axios.post(`${config.API_BASE_URL}/api/borrow`, {
             id: book.id,
             sid: this.state.selectedStudentId
         })

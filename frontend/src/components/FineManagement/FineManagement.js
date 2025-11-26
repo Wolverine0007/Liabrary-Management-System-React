@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import config from '../../config';
 import './FineManagement.css';
 
 class FineManagement extends Component {
@@ -21,8 +22,8 @@ class FineManagement extends Component {
     fetchFineData = () => {
         this.setState({ loading: true });
         Promise.all([
-            axios.get('/api/studentsWithFines'),
-            axios.get('/api/overdueBooks')
+            axios.get(`${config.API_BASE_URL}/api/studentsWithFines`),
+            axios.get(`${config.API_BASE_URL}/api/overdueBooks`)
         ])
         .then(([finesRes, overdueRes]) => {
             this.setState({
@@ -45,7 +46,7 @@ class FineManagement extends Component {
         }
 
         if (window.confirm(`Process payment of ₹${amount} for ${studentName}?`)) {
-            axios.post('/api/payFine', { studentId, amount })
+            axios.post(`${config.API_BASE_URL}/api/payFine`, { studentId, amount })
                 .then(response => {
                     alert('Payment processed successfully!');
                     this.setState({ paymentAmount: '', selectedStudent: null });

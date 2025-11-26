@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import config from '../../config';
 import './search.css';
 
 class Search extends React.Component {
@@ -17,7 +18,7 @@ class Search extends React.Component {
         if (!this.state.searchQuery.trim()) return;
         
         this.setState({ loading: true });
-        axios.get(`/api/searchBooks/${this.state.searchQuery}`)
+        axios.get(`${config.API_BASE_URL}/api/searchBooks/${this.state.searchQuery}`)
             .then(response => {
                 this.setState({ results: response.data, loading: false });
             })
@@ -31,7 +32,7 @@ class Search extends React.Component {
         if (!this.state.searchQuery.trim()) return;
         
         this.setState({ loading: true });
-        axios.get(`/api/searchStudents/${this.state.searchQuery}`)
+        axios.get(`${config.API_BASE_URL}/api/searchStudents/${this.state.searchQuery}`)
             .then(response => {
                 this.setState({ results: response.data, loading: false });
             })
@@ -45,7 +46,7 @@ class Search extends React.Component {
         if (!this.state.bookId.trim()) return;
         
         this.setState({ loading: true });
-        axios.get(`/api/bookHolders/${this.state.bookId}`)
+        axios.get(`${config.API_BASE_URL}/api/bookHolders/${this.state.bookId}`)
             .then(response => {
                 this.setState({ bookHolders: response.data, loading: false });
             })

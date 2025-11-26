@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import config from '../../config';
 import './Books.css';
 
 class Books extends React.Component {
@@ -19,7 +20,7 @@ class Books extends React.Component {
 
     fetchBooks = () => {
         this.setState({ loading: true });
-        axios.get('/api/getBooks')
+        axios.get(`${config.API_BASE_URL}/api/getBooks`)
             .then(response => {
                 this.setState({ books: response.data, loading: false });
             })
@@ -33,7 +34,7 @@ class Books extends React.Component {
         e.preventDefault();
         if (!this.state.newBook.name.trim() || !this.state.newBook.author.trim()) return;
 
-        axios.post('/api/addBook', this.state.newBook)
+        axios.post(`${config.API_BASE_URL}/api/addBook`, this.state.newBook)
             .then(response => {
                 this.setState({ newBook: { name: '', author: '', book_count: 1 } });
                 this.fetchBooks();
@@ -51,7 +52,7 @@ class Books extends React.Component {
             return;
         }
 
-        axios.get(`/api/searchBooks/${this.state.searchQuery}`)
+        axios.get(`${config.API_BASE_URL}/api/searchBooks/${this.state.searchQuery}`)
             .then(response => {
                 this.setState({ books: response.data });
             })
@@ -62,7 +63,7 @@ class Books extends React.Component {
 
     deleteBook = (bookId, bookName) => {
         if (window.confirm(`Are you sure you want to delete "${bookName}"?`)) {
-            axios.delete(`/api/deleteBook/${bookId}`)
+            axios.delete(`${config.API_BASE_URL}/api/deleteBook/${bookId}`)
                 .then(response => {
                     alert('Book deleted successfully!');
                     this.fetchBooks();
@@ -99,7 +100,7 @@ class Books extends React.Component {
             return;
         }
 
-        axios.post('/api/bulkAddBooks', { books })
+        axios.post(`${config.API_BASE_URL}/api/bulkAddBooks`, { books })
             .then(response => {
                 alert(response.data.message);
                 this.setState({ bulkBooks: '', showBulkImport: false });

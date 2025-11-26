@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import config from '../../config';
 import './Dashboard.css';
 
 class Dashboard extends Component {
@@ -19,9 +20,9 @@ class Dashboard extends Component {
 
     fetchDashboardData = () => {
         Promise.all([
-            axios.get(`${process.env.REACT_APP_API_URL || ''}/api/dashboard`),
-            axios.get(`${process.env.REACT_APP_API_URL || ''}/api/overdueBooks`),
-            axios.get(`${process.env.REACT_APP_API_URL || ''}/api/studentsWithFines`)
+            axios.get(`${config.API_BASE_URL}/api/dashboard`),
+            axios.get(`${config.API_BASE_URL}/api/overdueBooks`),
+            axios.get(`${config.API_BASE_URL}/api/studentsWithFines`)
         ])
         .then(([analyticsRes, overdueRes, finesRes]) => {
             console.log('Dashboard data:', {

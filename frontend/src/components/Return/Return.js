@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import config from '../../config';
 import { Container, Typography, TextField, Button, Card, CardContent, Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import './Return.css';
 
@@ -16,7 +17,7 @@ function Return() {
             // Search by ID first, then by name if ID search fails
             let response;
             if (!isNaN(searchTerm)) {
-                response = await axios.get(`/api/getIssues/${searchTerm}`);
+                response = await axios.get(`${config.API_BASE_URL}/api/getIssues/${searchTerm}`);
                 if (response.data.length > 0) {
                     setSelectedStudent({ id: searchTerm, name: response.data[0].sname });
                     setIssuedBooks(response.data);
@@ -28,10 +29,10 @@ function Return() {
                 }
             } else {
                 // Search by name - we'll need to add this endpoint
-                const studentsResponse = await axios.get(`/api/searchStudentByName/${searchTerm}`);
+                const studentsResponse = await axios.get(`${config.API_BASE_URL}/api/searchStudentByName/${searchTerm}`);
                 if (studentsResponse.data.length > 0) {
                     const student = studentsResponse.data[0];
-                    const booksResponse = await axios.get(`/api/getIssues/${student.id}`);
+                    const booksResponse = await axios.get(`${config.API_BASE_URL}/api/getIssues/${student.id}`);
                     setSelectedStudent(student);
                     setIssuedBooks(booksResponse.data);
                     setMessage('');
@@ -58,7 +59,7 @@ function Return() {
     const handleReturnBook = async (bookId, bookName, deadline) => {
         try {
             const fine = calculateFine(deadline);
-            await axios.post('/api/return', {
+            await axios.post(`${config.API_BASE_URL}/api/return`, {
                 sid: selectedStudent.id,
                 id: bookId
             });
@@ -70,7 +71,7 @@ function Return() {
             }
             
             // Refresh the issued books list
-            const response = await axios.get(`/api/getIssues/${selectedStudent.id}`);
+            const response = await axios.get(`${config.API_BASE_URL}/api/getIssues/${selectedStudent.id}`);
             setIssuedBooks(response.data);
         } catch (error) {
             setMessage('Error returning book. Please try again.');

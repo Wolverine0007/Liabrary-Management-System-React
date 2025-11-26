@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import config from '../../config';
 import './Students.css';
 
 class Students extends Component {
@@ -23,7 +24,7 @@ class Students extends Component {
 
     fetchStudents = () => {
         this.setState({ loading: true });
-        axios.get('/api/getStudents')
+        axios.get(`${config.API_BASE_URL}/api/getStudents`)
             .then(response => {
                 this.setState({ students: response.data, loading: false });
             })
@@ -37,7 +38,7 @@ class Students extends Component {
         e.preventDefault();
         if (!this.state.newStudentName.trim()) return;
 
-        axios.post('/api/addStudent', { name: this.state.newStudentName })
+        axios.post(`${config.API_BASE_URL}/api/addStudent`, { name: this.state.newStudentName })
             .then(response => {
                 this.setState({ newStudentName: '' });
                 this.fetchStudents();
@@ -55,7 +56,7 @@ class Students extends Component {
             return;
         }
 
-        axios.get(`/api/searchStudents/${this.state.searchQuery}`)
+        axios.get(`${config.API_BASE_URL}/api/searchStudents/${this.state.searchQuery}`)
             .then(response => {
                 this.setState({ students: response.data });
             })
@@ -65,7 +66,7 @@ class Students extends Component {
     }
 
     viewStudentDetails = (studentId) => {
-        axios.get(`/api/getStudent/${studentId}`)
+        axios.get(`${config.API_BASE_URL}/api/getStudent/${studentId}`)
             .then(response => {
                 this.setState({ selectedStudent: response.data });
             })
@@ -90,7 +91,7 @@ class Students extends Component {
             return;
         }
 
-        axios.put(`/api/updateStudent/${editingStudent.id}`, {
+        axios.put(`${config.API_BASE_URL}/api/updateStudent/${editingStudent.id}`, {
             name: editName,
             fine: parseFloat(editFine) || 0
         })
@@ -119,7 +120,7 @@ class Students extends Component {
 
     deleteStudent = (studentId, studentName) => {
         if (window.confirm(`Are you sure you want to delete student "${studentName}"?`)) {
-            axios.delete(`/api/deleteStudent/${studentId}`)
+            axios.delete(`${config.API_BASE_URL}/api/deleteStudent/${studentId}`)
                 .then(response => {
                     alert('Student deleted successfully!');
                     this.fetchStudents();
